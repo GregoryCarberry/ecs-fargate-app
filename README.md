@@ -54,3 +54,17 @@ terraform apply
 ```
 
 This stage does not yet create ECS, ALB, IAM, CloudWatch, or GitHub Actions.
+
+## Push image to ECR
+
+Push the local image to the existing repository:
+Replace `<aws_account_id>` with your AWS account ID before running these commands.
+
+```bash
+aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.eu-west-2.amazonaws.com
+docker tag ecs-fargate-lab:latest <aws_account_id>.dkr.ecr.eu-west-2.amazonaws.com/ecs-fargate-readiness-lab:0.1.0
+docker push <aws_account_id>.dkr.ecr.eu-west-2.amazonaws.com/ecs-fargate-readiness-lab:0.1.0
+aws ecr describe-images --region eu-west-2 --repository-name ecs-fargate-readiness-lab --image-ids imageTag=0.1.0
+```
+
+Image tag `0.1.0` has been successfully pushed as the first manual deployment milestone.
