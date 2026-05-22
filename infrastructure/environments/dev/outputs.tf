@@ -33,6 +33,26 @@ output "image_repository_url" {
   value       = aws_ecr_repository.app.repository_url
 }
 
+output "default_vpc_id" {
+  description = "ID of the default VPC used for the first ECS service version."
+  value       = data.aws_vpc.default.id
+}
+
+output "default_subnet_ids" {
+  description = "Subnet IDs from the default VPC."
+  value       = data.aws_subnets.default.ids
+}
+
+output "alb_security_group_id" {
+  description = "Security group ID for the future application load balancer."
+  value       = aws_security_group.alb.id
+}
+
+output "ecs_task_security_group_id" {
+  description = "Security group ID for ECS Fargate tasks."
+  value       = aws_security_group.ecs_task.id
+}
+
 output "task_definition_family" {
   description = "Family name of the ECS task definition."
   value       = aws_ecs_task_definition.app.family
