@@ -9,3 +9,9 @@ variable "repository_name" {
   type        = string
   default     = "ecs-fargate-readiness-lab"
 }
+
+variable "project_name" {
+  description = "Base name used for ECS foundation resources in the dev environment."
+  type        = string
+  default     = "ecs-fargate-readiness-lab"
+}
