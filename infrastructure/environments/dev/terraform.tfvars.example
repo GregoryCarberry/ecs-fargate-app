@@ -1,2 +1,3 @@
 aws_region      = "eu-west-2"
+project_name    = "ecs-fargate-readiness-lab"
 repository_name = "ecs-fargate-readiness-lab"
