@@ -22,6 +22,8 @@ locals {
   app_container_name           = "${var.project_name}-app"
   alb_security_group_name      = "${var.project_name}-alb-sg"
   ecs_task_security_group_name = "${var.project_name}-task-sg"
+  alb_name                     = "${var.project_name}-alb"
+  alb_target_group_name        = "${var.project_name}-tg"
 }
 
 resource "aws_ecr_repository" "app" {
@@ -119,6 +121,44 @@ resource "aws_vpc_security_group_egress_rule" "ecs_task_all_outbound" {
   security_group_id = aws_security_group.ecs_task.id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1"
+}
+
+resource "aws_lb" "app" {
+  name               = local.alb_name
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.alb.id]
+  subnets            = data.aws_subnets.default.ids
+}
+
+resource "aws_lb_target_group" "app" {
+  name        = local.alb_target_group_name
+  port        = 8000
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = data.aws_vpc.default.id
+
+  health_check {
+    enabled             = true
+    path                = "/health"
+    protocol            = "HTTP"
+    matcher             = "200"
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 5
+    interval            = 30
+  }
+}
+
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.app.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.app.arn
+  }
 }
 
 resource "aws_ecs_task_definition" "app" {

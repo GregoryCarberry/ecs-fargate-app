@@ -53,6 +53,26 @@ output "ecs_task_security_group_id" {
   value       = aws_security_group.ecs_task.id
 }
 
+output "alb_dns_name" {
+  description = "DNS name of the application load balancer."
+  value       = aws_lb.app.dns_name
+}
+
+output "alb_arn" {
+  description = "ARN of the application load balancer."
+  value       = aws_lb.app.arn
+}
+
+output "alb_target_group_arn" {
+  description = "ARN of the ALB target group for ECS tasks."
+  value       = aws_lb_target_group.app.arn
+}
+
+output "alb_listener_arn" {
+  description = "ARN of the HTTP listener for the application load balancer."
+  value       = aws_lb_listener.http.arn
+}
+
 output "task_definition_family" {
   description = "Family name of the ECS task definition."
   value       = aws_ecs_task_definition.app.family
