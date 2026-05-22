@@ -32,3 +32,13 @@ output "image_repository_url" {
   description = "ECR repository URL for ECS task image references."
   value       = aws_ecr_repository.app.repository_url
 }
+
+output "task_definition_family" {
+  description = "Family name of the ECS task definition."
+  value       = aws_ecs_task_definition.app.family
+}
+
+output "task_definition_arn" {
+  description = "ARN of the ECS task definition."
+  value       = aws_ecs_task_definition.app.arn
+}
