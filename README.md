@@ -40,3 +40,17 @@ docker run --rm -p 8000:8000 \
   -e BUILD_ID=local \
   ecs-fargate-lab
 ```
+
+## Terraform: ECR foundation
+
+The current infrastructure stage creates the ECR repository only.
+
+```bash
+cd infrastructure/environments/dev
+terraform init
+terraform validate
+terraform plan
+terraform apply
+```
+
+This stage does not yet create ECS, ALB, IAM, CloudWatch, or GitHub Actions.
