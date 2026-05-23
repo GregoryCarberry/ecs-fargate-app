@@ -24,6 +24,7 @@ locals {
   ecs_task_security_group_name = "${var.project_name}-task-sg"
   alb_name                     = "${var.project_name}-alb"
   alb_target_group_name        = "${var.project_name}-tg"
+  ecs_service_name             = "${var.project_name}-service"
 }
 
 resource "aws_ecr_repository" "app" {
@@ -217,4 +218,26 @@ resource "aws_ecs_task_definition" "app" {
       ]
     }
   ])
+}
+
+resource "aws_ecs_service" "app" {
+  name            = local.ecs_service_name
+  cluster         = aws_ecs_cluster.app.id
+  task_definition = aws_ecs_task_definition.app.arn
+  desired_count   = 1
+  launch_type     = "FARGATE"
+
+  network_configuration {
+    subnets          = data.aws_subnets.default.ids
+    security_groups  = [aws_security_group.ecs_task.id]
+    assign_public_ip = true
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.app.arn
+    container_name   = local.app_container_name
+    container_port   = 8000
+  }
+
+  depends_on = [aws_lb_listener.http]
 }
