@@ -1,0 +1,111 @@
+greg@DESKTOP-C5EDNDE:~/ecs-fargate-app/infrastructure/environments/dev$ aws logs get-log-events \                                                                                 --log-group-name /ecs/ecs-fargate-readiness-lab \
+  --log-stream-name "app/ecs-fargate-readiness-lab-app/f1d516d2295d4f53a7aca6a26947fe0e" \
+  --region eu-west-2 \
+  --limit 20
+{
+    "events": [
+        {
+            "timestamp": 1779536960426,
+            "message": "INFO:     172.31.0.180:10096 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779536964932
+        },
+        {
+            "timestamp": 1779536964566,
+            "message": "INFO:     172.31.18.103:38222 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779536964932
+        },
+        {
+            "timestamp": 1779536990456,
+            "message": "INFO:     172.31.0.180:56048 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779536994928
+        },
+        {
+            "timestamp": 1779536994589,
+            "message": "INFO:     172.31.18.103:18904 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779536994928
+        },
+        {
+            "timestamp": 1779537020477,
+            "message": "INFO:     172.31.0.180:38596 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537024924
+        },
+        {
+            "timestamp": 1779537024610,
+            "message": "INFO:     172.31.18.103:10724 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537024924
+        },
+        {
+            "timestamp": 1779537050508,
+            "message": "INFO:     172.31.0.180:4110 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537054922
+        },
+        {
+            "timestamp": 1779537054626,
+            "message": "INFO:     172.31.18.103:17914 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537054922
+        },
+        {
+            "timestamp": 1779537080537,
+            "message": "INFO:     172.31.0.180:41522 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537084929
+        },
+        {
+            "timestamp": 1779537084638,
+            "message": "INFO:     172.31.18.103:33732 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537084929
+        },
+        {
+            "timestamp": 1779537110567,
+            "message": "INFO:     172.31.0.180:3498 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537114931
+        },
+        {
+            "timestamp": 1779537114654,
+            "message": "INFO:     172.31.18.103:41502 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537114931
+        },
+        {
+            "timestamp": 1779537140573,
+            "message": "INFO:     172.31.0.180:55944 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537144928
+        },
+        {
+            "timestamp": 1779537144661,
+            "message": "INFO:     172.31.18.103:8868 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537144928
+        },
+        {
+            "timestamp": 1779537170601,
+            "message": "INFO:     172.31.0.180:58424 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537174922
+        },
+        {
+            "timestamp": 1779537174686,
+            "message": "INFO:     172.31.18.103:14002 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537174922
+        },
+        {
+            "timestamp": 1779537200602,
+            "message": "INFO:     172.31.0.180:23514 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537204934
+        },
+        {
+            "timestamp": 1779537204717,
+            "message": "INFO:     172.31.18.103:48892 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537204934
+        },
+        {
+            "timestamp": 1779537230633,
+            "message": "INFO:     172.31.0.180:62632 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537234921
+        },
+        {
+            "timestamp": 1779537234718,
+            "message": "INFO:     172.31.18.103:32178 - \"GET /health HTTP/1.1\" 200 OK",
+            "ingestionTime": 1779537234921
+        }
+    ],
+    "nextForwardToken": "f/39685006442743901024281178532996293900745045857846886401/s",
+    "nextBackwardToken": "b/39685000325827899028919495468484867725543198136183029760/s"
+}
+greg@DESKTOP-C5EDNDE:~/ecs-fargate-app/infrastructure/environments/dev$ 
