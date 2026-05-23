@@ -2,6 +2,25 @@
 
 This repository is a practical ECS Fargate Operational Readiness Lab. The current milestone demonstrates a small Python FastAPI service packaged with Docker, pushed to ECR, deployed on ECS Fargate, and exposed publicly through an Application Load Balancer in `eu-west-2`.
 
+## Architecture overview
+
+At this stage, the lab uses a straightforward AWS deployment path: a client sends HTTP requests to an Application Load Balancer, which forwards traffic to a single ECS Fargate service running the FastAPI container. The container image is pulled from Amazon ECR, application logs are sent to CloudWatch Logs, and the infrastructure is provisioned with Terraform.
+
+```mermaid
+flowchart LR
+    U[User / Client] --> ALB[Application Load Balancer]
+    ALB --> ECS[ECS Fargate Service]
+    ECS --> APP[FastAPI Container]
+    ECR[Amazon ECR Image] --> ECS
+    APP --> CWL[CloudWatch Logs]
+    TF[Terraform-managed Infrastructure] --> ALB
+    TF --> ECS
+    TF --> ECR
+    TF --> CWL
+```
+
+This is intentionally a simple lab architecture for the current milestone, using the default VPC rather than a custom network design.
+
 ## Local app
 
 The application lives under `app/` and exposes:
