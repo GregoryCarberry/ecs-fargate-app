@@ -129,6 +129,8 @@ aws logs get-log-events \
   --log-stream-name <log_stream_name>
 ```
 
+For a practical operational guide, see [docs/runbooks/ecs-fargate-troubleshooting.md](docs/runbooks/ecs-fargate-troubleshooting.md).
+
 ## Cost control
 
 This lab keeps a live ECS service and an internet-facing ALB running after deployment. Destroy the dev environment after testing to avoid ongoing AWS charges.
