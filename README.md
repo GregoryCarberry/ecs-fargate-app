@@ -1,6 +1,6 @@
 # Containerised App on ECS Fargate
 
-This repository is being built as a minimal ECS Fargate Operational Readiness Lab. The first step is a small Python FastAPI service designed for container deployment and local Docker testing before any infrastructure is added.
+This repository is a practical ECS Fargate Operational Readiness Lab. The current milestone demonstrates a small Python FastAPI service packaged with Docker, pushed to ECR, deployed on ECS Fargate, and exposed publicly through an Application Load Balancer in `eu-west-2`.
 
 ## Local app
 
@@ -41,9 +41,23 @@ docker run --rm -p 8000:8000 \
   ecs-fargate-lab
 ```
 
-## Terraform: ECR foundation
+## Current lab deployment milestone
 
-The current infrastructure stage creates the ECR repository only.
+This working lab milestone includes:
+
+- a FastAPI app containerised with Docker
+- an image pushed to Amazon ECR
+- an ECS cluster, task definition, IAM roles, and CloudWatch log group
+- an Application Load Balancer, target group, and HTTP listener
+- an ECS Fargate service attached to the ALB target group
+- successful public verification through the ALB using `GET /health`, `GET /`, and `GET /version`
+- target group health confirmed as healthy
+- ECS service confirmed as `ACTIVE` with `desiredCount` `1`, `runningCount` `1`, and `pendingCount` `0`
+- CloudWatch log entries showing `/health` requests returning `200 OK`
+
+This is a lab deployment milestone rather than a production-ready platform. It is intended to show hands-on delivery across container build, image publishing, ECS, IAM, logging, load balancing, and basic operational verification.
+
+## Terraform: dev environment
 
 ```bash
 cd infrastructure/environments/dev
@@ -53,7 +67,7 @@ terraform plan
 terraform apply
 ```
 
-This stage does not yet create ECS, ALB, IAM, CloudWatch, or GitHub Actions.
+The dev environment provisions the current lab foundation, including ECR, ECS, IAM roles, CloudWatch logging, default VPC integration, the ALB, and the ECS Fargate service.
 
 ## Push image to ECR
 
@@ -68,3 +82,58 @@ aws ecr describe-images --region eu-west-2 --repository-name ecs-fargate-readine
 ```
 
 Image tag `0.1.0` has been successfully pushed as the first manual deployment milestone.
+
+## Verify the deployment
+
+Replace placeholders such as `<alb_dns_name>`, `<target_group_arn>`, and `<log_stream_name>` with your own environment values before running the commands.
+
+Public endpoint checks through the ALB:
+
+```bash
+curl -i http://<alb_dns_name>/health
+curl -i http://<alb_dns_name>/
+curl -i http://<alb_dns_name>/version
+```
+
+Confirm target group health:
+
+```bash
+aws elbv2 describe-target-health \
+  --region eu-west-2 \
+  --target-group-arn <target_group_arn>
+```
+
+Confirm ECS service state:
+
+```bash
+aws ecs describe-services \
+  --region eu-west-2 \
+  --cluster ecs-fargate-readiness-lab-dev \
+  --services ecs-fargate-readiness-lab-service
+```
+
+Inspect CloudWatch log streams:
+
+```bash
+aws logs describe-log-streams \
+  --region eu-west-2 \
+  --log-group-name /ecs/ecs-fargate-readiness-lab
+```
+
+Read recent application log events:
+
+```bash
+aws logs get-log-events \
+  --region eu-west-2 \
+  --log-group-name /ecs/ecs-fargate-readiness-lab \
+  --log-stream-name <log_stream_name>
+```
+
+## Cost control
+
+This lab keeps a live ECS service and an internet-facing ALB running after deployment. Destroy the dev environment after testing to avoid ongoing AWS charges.
+
+```bash
+cd infrastructure/environments/dev
+terraform destroy
+```
