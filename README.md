@@ -21,6 +21,18 @@ flowchart LR
 
 This is intentionally a simple lab architecture for the current milestone, using the default VPC rather than a custom network design.
 
+## What this demonstrates
+
+This lab is designed to show practical cloud support and junior cloud engineering skills, including:
+
+- containerisation of a small web service with Docker
+- image publishing to Amazon ECR
+- ECS Fargate deployment behind an Application Load Balancer
+- ALB health-check verification and basic service validation
+- CloudWatch log inspection for operational troubleshooting
+- day-to-day Terraform workflow for provisioning and cleanup
+- cost-aware teardown of live AWS resources after testing
+
 ## Local app
 
 The application lives under `app/` and exposes:
@@ -46,9 +58,9 @@ docker run --rm -p 8000:8000 ecs-fargate-lab
 Test the endpoints:
 
 ```bash
-curl http://localhost:8000/
-curl http://localhost:8000/health
-curl http://localhost:8000/version
+curl -i http://localhost:8000/
+curl -i http://localhost:8000/health
+curl -i http://localhost:8000/version
 ```
 
 Optional build metadata can be passed at runtime:
@@ -81,6 +93,7 @@ This is a lab deployment milestone rather than a production-ready platform. It i
 ```bash
 cd infrastructure/environments/dev
 terraform init
+terraform fmt -recursive ../..
 terraform validate
 terraform plan
 terraform apply
@@ -100,7 +113,7 @@ docker push <aws_account_id>.dkr.ecr.eu-west-2.amazonaws.com/ecs-fargate-readine
 aws ecr describe-images --region eu-west-2 --repository-name ecs-fargate-readiness-lab --image-ids imageTag=0.1.0
 ```
 
-Image tag `0.1.0` has been successfully pushed as the first manual deployment milestone.
+In this lab, image tag `0.1.0` was used for the manual deployment milestone shown in the current documentation.
 
 ## Verify the deployment
 
